@@ -6,10 +6,14 @@ const questionsCounterText = document.querySelector("#questionsCounterText");
 const qusetionContainer = document.querySelector("#qusetion-container");
 const answerContainers = document.querySelectorAll(".answers");
 const nextQuestionBtn = document.querySelector("#next-question");
+const healthContainer = document.querySelector("#health-container");
 
 let questions = null;
+
+let health = 5;
 let qusetionIndex = 0;
 let correctIndex = null;
+let toggle = false;
 
 // get url of api
 const url = (() => {
@@ -36,9 +40,19 @@ async function getQuestions() {
 // show qusetions
 function showQusetions() {
   let incorectIndex = 0;
+  // reset answer containers
+  answerContainers.forEach((item) => {
+    item.innerText = "";
+    item.classList.remove("correct");
+    item.classList.remove("incorrect");
+  });
+
   questionsCounterText.innerText = qusetionIndex + 1;
+  healthContainer.innerText = health;
+
   const question = questions[qusetionIndex];
   correctIndex = Math.floor(Math.random() * 3);
+  console.log(correctIndex);
   //show answers
   qusetionContainer.innerText = question.question;
   answerContainers[correctIndex].innerText = question.correct_answer;
@@ -52,15 +66,41 @@ function showQusetions() {
 
 // next question
 function nextQuestionHandeler() {
+  toggle = false;
   if (qusetionIndex < questions.length - 1) {
-    qusetionIndex++;
     showQusetions();
+    qusetionIndex++;
   } else {
-    alert("End");
+    endGame();
   }
+}
+
+// end game handeler
+function endGame() {
+  alert("End");
+}
+
+// check answers
+function checkAnser(event) {
+  if (!toggle) {
+    if (event.target.innerText === answerContainers[correctIndex].innerText) {
+      event.target.classList.add("correct");
+    } else {
+      answerContainers[correctIndex].classList.add("correct");
+      event.target.classList.add("incorrect");
+      health--;
+      if (health <= 0) {
+        endGame();
+      }
+    }
+  }
+  toggle = true;
 }
 
 window.addEventListener("DOMContentLoaded", () => {
   getQuestions();
   nextQuestionBtn.addEventListener("click", nextQuestionHandeler);
+  answerContainers.forEach((item) =>
+    item.addEventListener("click", checkAnser)
+  );
 });

@@ -2,6 +2,9 @@ nav {
   padding: 1em 0;
   font-weight: 900;
   font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 main {
   margin-top: 1em;
@@ -18,8 +21,17 @@ main {
   border: 1px solid var(--main-color);
   border-radius: 15px;
   margin-top: 10px;
+  cursor: pointer;
 }
 
 #next-question {
   margin-top: 20px;
+}
+.correct {
+  border-color: #00c33a;
+  color: #00c33a;
+}
+.incorrect {
+  color: red;
+  border-color: red;
 }
