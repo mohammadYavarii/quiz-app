@@ -20,7 +20,7 @@ function makeUrl() {
   });
 
   startGame(
-    `https://opentdb.com/api.php?amount=${count}&difficulty=${dificality}`
+    `https://opentdb.com/api.php?amount=${count}&difficulty=${dificality.toLowerCase()}&type=multiple`
   );
   console.log(url);
 }
