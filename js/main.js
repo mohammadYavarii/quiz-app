@@ -14,6 +14,7 @@ let health = 5;
 let qusetionIndex = 0;
 let correctIndex = null;
 let toggle = false;
+let score = 0;
 
 // get url of api
 const url = (() => {
@@ -77,13 +78,15 @@ function nextQuestionHandeler() {
 
 // end game handeler
 function endGame() {
-  alert("End");
+  sessionStorage.setItem("score", String(score));
+  location.assign("./endGame.html");
 }
 
 // check answers
 function checkAnser(event) {
   if (!toggle) {
     if (event.target.innerText === answerContainers[correctIndex].innerText) {
+      score += 5;
       event.target.classList.add("correct");
     } else {
       answerContainers[correctIndex].classList.add("correct");

@@ -1,0 +1,25 @@
+.btns {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translate(-50%);
+  width: 100%;
+  max-width: 600px;
+}
+.btns button {
+  margin-bottom: 10px;
+}
+
+.scores {
+  margin-top: 1.5em;
+  display: flex;
+  align-items: center;
+
+  justify-content: space-between;
+  border: 1px solid var(--main-color);
+  padding: 1em;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
