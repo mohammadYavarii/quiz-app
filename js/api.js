@@ -10,7 +10,7 @@ function startGame(url) {
 
 // make url
 function makeUrl() {
-  const count = inp.value != 0 ? inp.value : 5;
+  const count = inp.value > 5 ? inp.value : 5;
   let dificality = null;
 
   dificalityBtns.forEach((item) => {
