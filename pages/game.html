@@ -3,12 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>quiz app</title>
-    <link rel="stylesheet" href="../css/style.css" />
+    <title>game</title>
     <link rel="stylesheet" href="../css/game.css" />
     <link rel="stylesheet" href="../css/loading.css" />
   </head>
   <body>
+    <div id="game">
+      <nav>
+        <p>Qustion number : <span id="question-number">1</span></p>
+        <p>Score : <span id="score-number">0</span></p>
+      </nav>
+
+      <div id="question-container"></div>
+
+      <div id="answers-container">
+        <div class="answes"></div>
+        <div class="answes"></div>
+        <div class="answes"></div>
+        <div class="answes"></div>
+      </div>
+
+      <div class="btn-container">
+        <button id="finish">finish</button>
+        <button id="next">next</button>
+      </div>
+    </div>
+
     <!-- loading -->
     <div id="loading">
       <svg class="pl" width="240" height="240" viewBox="0 0 240 240">
@@ -61,34 +81,7 @@
       </svg>
     </div>
 
-    <!-- show -->
-    <nav>
-      <p>
-        <span id="allQuestionsCounterText">0</span> /
-        <span id="questionsCounterText">0</span>
-      </p>
-      <p>♡ <span id="health-container"5</span></p>
-    </nav>
-    <header>
-      <p id="qusetion-container">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque
-        tenetur facilis saepe voluptas quo recusandae eos nihil hic itaque
-        consequatur, corporis impedit nobis rerum voluptates ab atque aliquam
-        sed deserunt.
-      </p>
-    </header>
-
-    <main>
-      <div class="answers"></div>
-      <div class="answers"></div>
-      <div class="answers"></div>
-      <div class="answers"></div>
-    </main>
-
-    <footer>
-      <button id="next-question" class="selected">Next</button>
-    </footer>
-
-    <script src="../js/main.js"></script>
+    <script type="module" src="../js/helper.js"></script>
+    <script type="module" src="../js/main.js"></script>
   </body>
 </html>

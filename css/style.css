@@ -1,61 +1,68 @@
 :root {
-  --background-color: #170d34;
-  --main-color: #6600ff;
-  --text-color: #fafafa;
+  --background: #f6f0ff;
+  --them: #6219ff;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  text-decoration: none;
+  transition: all 0.3s;
   border: 0;
   outline: 0;
-  color: var(--text-color);
-}
-
-button {
-  border-radius: 15px;
-  padding: 1em;
-  background-color: transparent;
-  border: 2px solid var(--main-color);
-  color: var(--main-color);
-  font-weight: 900;
-  cursor: pointer;
 }
 
 body {
-  background-color: var(--background-color);
   max-width: 600px;
+  background-color: var(--background);
+  color: var(--them);
   margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   height: 100vh;
 }
-
-.selected {
-  background-color: var(--main-color);
-  color: var(--text-color);
+.container {
+  margin: 2em 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5em;
 }
-
-.first-page-header {
-  padding: 3em 0;
+a,
+button {
+  cursor: pointer;
+  color: var(--them);
+  padding: 1em;
+  width: 10em;
+  background-color: #fff;
+  border-radius: 15px;
+  font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
-.first-page-button {
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  bottom: 10px;
-  left: 50%;
-  transform: translate(-50%);
-  width: 100%;
-  max-width: 600px;
-}
-.first-page-button * {
-  width: 100%;
+input {
+  /* width: 100%; */
+  margin-top: 1em;
+  padding: 1em;
+  border: 1px solid var(--them);
+  border-radius: 15px;
+  background-color: transparent;
+  color: var(--them);
 }
 
-.first-page-button button {
-  margin-bottom: 10px;
+a:hover,
+button:hover {
+  background-color: var(--them);
+  color: #fff;
+}
+/* loading  */
+
+#game {
+  display: none;
+  width: 100%;
 }

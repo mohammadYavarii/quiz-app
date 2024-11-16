@@ -1,109 +1,102 @@
+import { formatedData, getDataFromAnotherPage } from "./helper.js";
+
 const loading = document.querySelector("#loading");
-const allQuestionsCounterText = document.querySelector(
-  "#allQuestionsCounterText"
-);
-const questionsCounterText = document.querySelector("#questionsCounterText");
-const qusetionContainer = document.querySelector("#qusetion-container");
-const answerContainers = document.querySelectorAll(".answers");
-const nextQuestionBtn = document.querySelector("#next-question");
-const healthContainer = document.querySelector("#health-container");
+const gameDisplay = document.querySelector("#game");
+const questionContainer = document.querySelector("#question-container");
+const answesContainer = document.querySelectorAll(".answes");
+const questionNumberContainer = document.querySelector("#question-number");
+const scoreNumberContainer = document.querySelector("#score-number");
+const nextBtn = document.querySelector("#next");
+const finishBtn = document.querySelector("#finish");
 
-let questions = null;
-
-let health = 5;
-let qusetionIndex = 0;
-let correctIndex = null;
-let toggle = false;
+const URL =
+  sessionStorage.getItem("url") ||
+  "https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple";
+let questionIndex = 0;
+const CURECT_BONUS = 10;
 let score = 0;
+let flag = true;
+let correctAnswer = null;
+let data = [];
 
-// get url of api
-const url = (() => {
-  const url = sessionStorage.getItem("url");
-  sessionStorage.removeItem("url");
-  return url;
-})();
+// show questions
+const showQusetion = () => {
+  const { question, answers, correctIndex } = data[questionIndex];
+  questionContainer.innerText = question;
+  answesContainer.forEach((item, index) => {
+    item.innerText = answers[index];
+  });
+  correctAnswer = correctIndex;
+  console.log(correctAnswer);
+};
 
-// get data from api
-async function getQuestions() {
+// get data from an api
+const fetchData = async () => {
   try {
-    const response = await fetch(url);
-    questions = await response.json();
-    questions = questions.results;
-    allQuestionsCounterText.innerText = questions.length;
-    showQusetions();
+    const response = await fetch(URL);
+    const json = await response.json();
+    data = formatedData(json.results);
+    showQusetion();
+    // hide loading and show display
+    loading.style.display = "none";
+    gameDisplay.style.display = "block";
   } catch (err) {
-    alert("Something is wrong...");
-    history.back();
+    // create error handeler
+    document.body.innerHTML = "";
+    const message = document.createElement("h1");
+    message.innerText = "Something is wrong...";
+    const button = document.createElement("button");
+    button.addEventListener("click", () => location.reload());
+    button.style.marginTop = "2em";
+    button.innerText = "Reload";
+
+    document.body.append(message);
+    document.body.append(button);
   }
-  loading.style.display = "none";
-}
+};
 
-// show qusetions
-function showQusetions() {
-  let incorectIndex = 0;
-  // reset answer containers
-  answerContainers.forEach((item) => {
-    item.innerText = "";
-    item.classList.remove("correct");
-    item.classList.remove("incorrect");
-  });
-
-  questionsCounterText.innerText = qusetionIndex + 1;
-  healthContainer.innerText = health;
-
-  const question = questions[qusetionIndex];
-  correctIndex = Math.floor(Math.random() * 3);
-  console.log(correctIndex);
-  //show answers
-  qusetionContainer.innerText = question.question;
-  answerContainers[correctIndex].innerText = question.correct_answer;
-  answerContainers.forEach((item, index) => {
-    if (index != correctIndex) {
-      item.innerText = question.incorrect_answers[incorectIndex];
-      incorectIndex++;
+// check answer after click
+const checkAnswerHandeler = (event, index) => {
+  if (flag) {
+    if (index == correctAnswer) {
+      event.target.classList.add("true-answer");
+      score += CURECT_BONUS;
+      scoreNumberContainer.innerText = score;
+    } else {
+      event.target.classList.add("false-answer");
+      answesContainer[correctAnswer].classList.add("true-answer");
     }
-  });
-}
+  }
+  flag = false;
+};
+
+// finish game
+const finishHandeler = () => {
+  sessionStorage.setItem("score", JSON.stringify(score));
+  location.assign("../pages/end.html");
+};
 
 // next question
-function nextQuestionHandeler() {
-  toggle = false;
-  if (qusetionIndex < questions.length - 1) {
-    showQusetions();
-    qusetionIndex++;
+const nextQuestionHandeler = () => {
+  if (questionIndex != data.length - 1) {
+    answesContainer.forEach((item) => {
+      item.classList.remove("true-answer");
+      item.classList.remove("false-answer");
+    });
+    questionIndex++;
+    questionNumberContainer.innerText = questionIndex + 1;
+    flag = true;
+    showQusetion();
   } else {
-    endGame();
+    finishHandeler();
   }
-}
+};
 
-// end game handeler
-function endGame() {
-  sessionStorage.setItem("score", String(score));
-  location.assign("./endGame.html");
-}
-
-// check answers
-function checkAnser(event) {
-  if (!toggle) {
-    if (event.target.innerText === answerContainers[correctIndex].innerText) {
-      score += 5;
-      event.target.classList.add("correct");
-    } else {
-      answerContainers[correctIndex].classList.add("correct");
-      event.target.classList.add("incorrect");
-      health--;
-      if (health <= 0) {
-        endGame();
-      }
-    }
-  }
-  toggle = true;
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-  getQuestions();
-  nextQuestionBtn.addEventListener("click", nextQuestionHandeler);
-  answerContainers.forEach((item) =>
-    item.addEventListener("click", checkAnser)
+window.addEventListener("load", () => {
+  fetchData();
+  nextBtn.addEventListener("click", nextQuestionHandeler);
+  finishBtn.addEventListener("click", finishHandeler);
+  answesContainer.forEach((item, index) =>
+    item.addEventListener("click", (event) => checkAnswerHandeler(event, index))
   );
 });

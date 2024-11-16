@@ -3,18 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>high scores</title>
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/highScore.css" />
+    <title>high sores</title>
+    <link rel="stylesheet" href="../css/highScores.css" />
   </head>
   <body>
-    <div class="container"></div>
+    <h1>scores</h1>
 
-    <div class="btns">
-      <button id="getBack" class="selected">get back</button>
-      <button id="clear">clear</button>
-    </div>
+    <div class="scores-container"></div>
 
-    <script src="../js/highscore.js"></script>
+    <a href="../index.html">get back</a>
+
+    <script>
+      const container = document.querySelector(".scores-container");
+      const highScores = JSON.parse(localStorage.getItem("highScore")) || [];
+      let count = 1;
+
+      highScores.forEach((item) => {
+        container.innerHTML += `
+        <div class="scores">
+            <span class="score-count">${count}</span>
+            <p class="score-text">${item.userName}</p>
+            <span class="score">${item.score}</span>
+        </div>
+        `;
+        count++;
+      });
+    </script>
   </body>
 </html>

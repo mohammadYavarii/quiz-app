@@ -1,0 +1,30 @@
+@import url(./style.css);
+
+#save {
+  width: 100%;
+  padding: 1em;
+  font-weight: 900;
+}
+
+input {
+  padding: 1em;
+  background-color: transparent;
+  border: 1px solid var(--them);
+  color: var(--them);
+  border-radius: 15px;
+  margin: 1em 0;
+}
+
+#score-container {
+  background-color: var(--them);
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  width: 1.5em;
+  margin-bottom: 1em;
+  height: 1.5em;
+}
